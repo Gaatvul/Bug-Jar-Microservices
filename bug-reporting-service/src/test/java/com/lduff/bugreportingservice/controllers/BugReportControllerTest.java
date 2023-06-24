@@ -41,8 +41,6 @@ public class BugReportControllerTest {
 
         String bugReportsAsJson = mapper.writeValueAsString(bugReports);
 
-        System.out.println("BLERGH!");
-
         mockMvc.perform(get("/bug-reports/")).andExpectAll(status().isOk(), content().json(bugReportsAsJson, false));
     }
 }
