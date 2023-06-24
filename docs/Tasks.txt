@@ -1,0 +1,20 @@
+Break backend up into microservices
+ - Define each service.
+   > API Gateway service.
+   > Bug Reporting Service.
+   > User Service.
+   > Authentication Service.
+   > Analytics Service.
+   > Administrator Service.
+ - Separate database tables for each service.
+ - Bug Report Fields:
+   > ID
+   > Title
+   > Description
+   > Status
+   > Severity
+   > Priority
+   > Reported By
+   > Assigned To
+   > Date Reported
+   > Date Updated
