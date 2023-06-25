@@ -3,6 +3,7 @@ package com.lduff.bugreportingservice.models;
 import java.util.Date;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,7 @@ public class BugReport {
 
     private String assignee;
 
-    @NotEmpty(message = "Reported On must not be blank.")
+    @NotNull(message = "Reported On must not be blank.")
     private Date reportedOn;
 
     private Date lastUpdated;
