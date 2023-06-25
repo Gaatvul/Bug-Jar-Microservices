@@ -1,5 +1,7 @@
 server:
-    port: 8081
+  port: 8081
 spring:
-    application:
-        name: bug-reporting-service
+  application:
+    name: bug-reporting-service
+URI:
+  bug-report-controller: /bug-reports
