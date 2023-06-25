@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "URI.bug-report-controller",
+  "type": "java.lang.String",
+  "description": "The URI used to access the Bug Report Controller class."
+}]}
