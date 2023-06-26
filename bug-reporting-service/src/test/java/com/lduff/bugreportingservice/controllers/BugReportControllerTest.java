@@ -10,7 +10,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +53,8 @@ public class BugReportControllerTest {
 
         String bugReportsAsJson = mapper.writeValueAsString(bugReports);
 
-        mockMvc.perform(get(BUG_REPORT_CONTROLLER_URI + "/")).andExpectAll(status().isOk(), content().json(bugReportsAsJson, false));
+        mockMvc.perform(get(BUG_REPORT_CONTROLLER_URI + "/")).andExpectAll(status().isOk(),
+                content().json(bugReportsAsJson, false));
     }
 
     @Test
@@ -63,6 +65,33 @@ public class BugReportControllerTest {
 
         mockMvc.perform(post(BUG_REPORT_CONTROLLER_URI + "/").contentType(MediaType.APPLICATION_JSON)
                 .content(bugReportToAddAsJson)).andExpect(status().isOk());
+
+    }
+
+    @RepeatedTest(6)
+    void whenBugReportIsInvalid_ShouldReturnStatus400(RepetitionInfo repetitionInfo) throws Exception {
+
+        BugReport nullTitleBugReport = new BugReport(null, "description1", "status1", "severity1", "priority1",
+                "reporter1", "assignee1", new Date(), new Date());
+        BugReport blankTitleBugReport = new BugReport("", "description1", "status1", "severity1", "priority1",
+                "reporter1", "assignee1", new Date(), new Date());
+        BugReport nullDescriptionBugReport = new BugReport("title", null, "status1", "severity1", "priority1",
+                "reporter1", "assignee1", new Date(), new Date());
+        BugReport blankDescriptionBugReport = new BugReport("title", "", "status1", "severity1", "priority1",
+                "reporter1", "assignee1", new Date(), new Date());
+        BugReport nullReporterBugReport = new BugReport("title", "description1", "status1", "severity1", "priority1",
+                null, "assignee1", new Date(), new Date());
+        BugReport blankReporterBugReport = new BugReport("", "description1", "status1", "severity1", "priority1",
+                "", "assignee1", new Date(), new Date());
+
+        bugReports = Arrays.asList(nullTitleBugReport, blankTitleBugReport, nullDescriptionBugReport,
+                blankDescriptionBugReport, nullReporterBugReport, blankReporterBugReport);
+
+        String invalidBugReportAsJson = mapper
+                .writeValueAsString(bugReports.get(repetitionInfo.getCurrentRepetition() - 1));
+
+        mockMvc.perform(post(BUG_REPORT_CONTROLLER_URI + "/").contentType(MediaType.APPLICATION_JSON)
+                .content(invalidBugReportAsJson)).andExpect(status().isBadRequest());
 
     }
 }
