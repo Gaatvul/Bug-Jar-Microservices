@@ -3,6 +3,7 @@ package com.lduff.bugreportingservice.controllers;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,6 +46,7 @@ public class BugReportControllerTest {
 
     @Test
     void getAllBugReportsShouldReturnListOfBugReports() throws Exception {
+
         bugReports = Arrays.asList(
                 new BugReport(1L, "title1", "description1", "status1", "severity1", "priority1", "reporter1",
                         "assignee1", new Date(), new Date()),
@@ -75,13 +77,14 @@ public class BugReportControllerTest {
 
         BugReportDto nullTitleBugReport = new BugReportDto(null, "description1", "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReportDto blankTitleBugReport = new BugReportDto( "", "description1", "status1", "severity1", "priority1",
+        BugReportDto blankTitleBugReport = new BugReportDto("", "description1", "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReportDto nullDescriptionBugReport = new BugReportDto( "title", null, "status1", "severity1", "priority1",
+        BugReportDto nullDescriptionBugReport = new BugReportDto("title", null, "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
         BugReportDto blankDescriptionBugReport = new BugReportDto("title", "", "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReportDto nullReporterBugReport = new BugReportDto("title", "description1", "status1", "severity1", "priority1",
+        BugReportDto nullReporterBugReport = new BugReportDto("title", "description1", "status1", "severity1",
+                "priority1",
                 null, "assignee1", new Date(), new Date());
         BugReportDto blankReporterBugReport = new BugReportDto("", "description1", "status1", "severity1", "priority1",
                 "", "assignee1", new Date(), new Date());
@@ -97,5 +100,11 @@ public class BugReportControllerTest {
         mockMvc.perform(post(BUG_REPORT_CONTROLLER_URI + "/").contentType(MediaType.APPLICATION_JSON)
                 .content(invalidBugReportAsJson)).andExpect(status().isBadRequest());
 
+    }
+
+    @Test
+    void deleteBugReport_ShouldReturnStatus200() throws Exception {
+        
+        mockMvc.perform(delete(BUG_REPORT_CONTROLLER_URI + "/1")).andExpect(status().isOk());
     }
 }
