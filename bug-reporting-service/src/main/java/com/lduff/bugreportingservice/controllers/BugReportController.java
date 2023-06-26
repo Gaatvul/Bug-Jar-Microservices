@@ -10,8 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lduff.bugreportingservice.models.BugReport;
 import com.lduff.bugreportingservice.services.BugReportService;
 
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 @RestController
-@RequestMapping("/bug-reports")
+@RequestMapping("${URI.bug-report-controller}")
 public class BugReportController {
 
     @Autowired
@@ -21,4 +26,10 @@ public class BugReportController {
     public List<BugReport> getAllBugReports() {
         return bugReportService.getAllBugReports();
     }
+
+    @PostMapping("/")
+    public void createNewBugReport(@Valid @RequestBody BugReport bugReport) {
+
+    }
+
 }
