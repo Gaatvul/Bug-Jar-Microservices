@@ -44,10 +44,10 @@ public class BugReportControllerTest {
     @Test
     void getAllBugReportsShouldReturnListOfBugReports() throws Exception {
         bugReports = Arrays.asList(
-                new BugReport("title1", "description1", "status1", "severity1", "priority1", "reporter1", "assignee1",
-                        new Date(), new Date()),
-                new BugReport("title2", "description2", "status2", "severity2", "priority2", "reporter2", "assignee2",
-                        new Date(), new Date()));
+                new BugReport(1L, "title1", "description1", "status1", "severity1", "priority1", "reporter1",
+                        "assignee1", new Date(), new Date()),
+                new BugReport(2L, "title2", "description2", "status2", "severity2", "priority2", "reporter2",
+                        "assignee2", new Date(), new Date()));
 
         when(bugReportService.getAllBugReports()).thenReturn(bugReports);
 
@@ -60,7 +60,7 @@ public class BugReportControllerTest {
     @Test
     void createNewBugReportShouldAddToListOfBugReports() throws Exception {
 
-        String bugReportToAddAsJson = mapper.writeValueAsString(new BugReport("title3", "description3",
+        String bugReportToAddAsJson = mapper.writeValueAsString(new BugReport(3L, "title3", "description3",
                 "status3", "severity3", "priority3", "reporter3", "assignee3", new Date(), new Date()));
 
         mockMvc.perform(post(BUG_REPORT_CONTROLLER_URI + "/").contentType(MediaType.APPLICATION_JSON)
@@ -71,19 +71,19 @@ public class BugReportControllerTest {
     @RepeatedTest(7)
     void whenBugReportIsInvalid_ShouldReturnStatus400(RepetitionInfo repetitionInfo) throws Exception {
 
-        BugReport nullTitleBugReport = new BugReport(null, "description1", "status1", "severity1", "priority1",
+        BugReport nullTitleBugReport = new BugReport(2L, null, "description1", "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReport blankTitleBugReport = new BugReport("", "description1", "status1", "severity1", "priority1",
+        BugReport blankTitleBugReport = new BugReport(3L, "", "description1", "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReport nullDescriptionBugReport = new BugReport("title", null, "status1", "severity1", "priority1",
+        BugReport nullDescriptionBugReport = new BugReport(4L, "title", null, "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReport blankDescriptionBugReport = new BugReport("title", "", "status1", "severity1", "priority1",
+        BugReport blankDescriptionBugReport = new BugReport(5L, "title", "", "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReport nullReporterBugReport = new BugReport("title", "description1", "status1", "severity1", "priority1",
+        BugReport nullReporterBugReport = new BugReport(6L, "title", "description1", "status1", "severity1", "priority1",
                 null, "assignee1", new Date(), new Date());
-        BugReport blankReporterBugReport = new BugReport("", "description1", "status1", "severity1", "priority1",
+        BugReport blankReporterBugReport = new BugReport(7L, "", "description1", "status1", "severity1", "priority1",
                 "", "assignee1", new Date(), new Date());
-        BugReport nullReportedOnBugReport = new BugReport("", "description1", "status1", "severity1", "priority1",
+        BugReport nullReportedOnBugReport = new BugReport(8L, "", "description1", "status1", "severity1", "priority1",
                 "", "assignee1", null, new Date());
 
         bugReports = Arrays.asList(nullTitleBugReport, blankTitleBugReport, nullDescriptionBugReport,

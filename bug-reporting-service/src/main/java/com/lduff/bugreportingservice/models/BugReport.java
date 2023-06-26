@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class BugReport {
 
+    @NotNull(message = "ID cannot be null")
+    private Long id;
+
     @NotEmpty(message = "Title cannot be blank.")
     private String title;
 
