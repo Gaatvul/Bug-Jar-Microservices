@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lduff.bugreportingservice.dtos.BugReportDto;
 import com.lduff.bugreportingservice.models.BugReport;
 import com.lduff.bugreportingservice.services.BugReportService;
 
@@ -28,7 +29,7 @@ public class BugReportController {
     }
 
     @PostMapping("/")
-    public void createNewBugReport(@Valid @RequestBody BugReport bugReport) {
+    public void createNewBugReport(@Valid @RequestBody BugReportDto bugReport) {
 
     }
 

@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lduff.bugreportingservice.dtos.BugReportDto;
 import com.lduff.bugreportingservice.models.BugReport;
 import com.lduff.bugreportingservice.services.BugReportService;
 
@@ -37,6 +38,7 @@ public class BugReportControllerTest {
     private MockMvc mockMvc;
 
     private List<BugReport> bugReports;
+    private List<BugReportDto> bugReportDtos;
 
     @Value("${URI.bug-report-controller}")
     private String BUG_REPORT_CONTROLLER_URI;
@@ -60,7 +62,7 @@ public class BugReportControllerTest {
     @Test
     void createNewBugReportShouldAddToListOfBugReports() throws Exception {
 
-        String bugReportToAddAsJson = mapper.writeValueAsString(new BugReport(3L, "title3", "description3",
+        String bugReportToAddAsJson = mapper.writeValueAsString(new BugReportDto("title3", "description3",
                 "status3", "severity3", "priority3", "reporter3", "assignee3", new Date(), new Date()));
 
         mockMvc.perform(post(BUG_REPORT_CONTROLLER_URI + "/").contentType(MediaType.APPLICATION_JSON)
@@ -71,26 +73,26 @@ public class BugReportControllerTest {
     @RepeatedTest(7)
     void whenBugReportIsInvalid_ShouldReturnStatus400(RepetitionInfo repetitionInfo) throws Exception {
 
-        BugReport nullTitleBugReport = new BugReport(2L, null, "description1", "status1", "severity1", "priority1",
+        BugReportDto nullTitleBugReport = new BugReportDto(null, "description1", "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReport blankTitleBugReport = new BugReport(3L, "", "description1", "status1", "severity1", "priority1",
+        BugReportDto blankTitleBugReport = new BugReportDto( "", "description1", "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReport nullDescriptionBugReport = new BugReport(4L, "title", null, "status1", "severity1", "priority1",
+        BugReportDto nullDescriptionBugReport = new BugReportDto( "title", null, "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReport blankDescriptionBugReport = new BugReport(5L, "title", "", "status1", "severity1", "priority1",
+        BugReportDto blankDescriptionBugReport = new BugReportDto("title", "", "status1", "severity1", "priority1",
                 "reporter1", "assignee1", new Date(), new Date());
-        BugReport nullReporterBugReport = new BugReport(6L, "title", "description1", "status1", "severity1", "priority1",
+        BugReportDto nullReporterBugReport = new BugReportDto("title", "description1", "status1", "severity1", "priority1",
                 null, "assignee1", new Date(), new Date());
-        BugReport blankReporterBugReport = new BugReport(7L, "", "description1", "status1", "severity1", "priority1",
+        BugReportDto blankReporterBugReport = new BugReportDto("", "description1", "status1", "severity1", "priority1",
                 "", "assignee1", new Date(), new Date());
-        BugReport nullReportedOnBugReport = new BugReport(8L, "", "description1", "status1", "severity1", "priority1",
+        BugReportDto nullReportedOnBugReport = new BugReportDto("", "description1", "status1", "severity1", "priority1",
                 "", "assignee1", null, new Date());
 
-        bugReports = Arrays.asList(nullTitleBugReport, blankTitleBugReport, nullDescriptionBugReport,
+        bugReportDtos = Arrays.asList(nullTitleBugReport, blankTitleBugReport, nullDescriptionBugReport,
                 blankDescriptionBugReport, nullReporterBugReport, blankReporterBugReport, nullReportedOnBugReport);
 
         String invalidBugReportAsJson = mapper
-                .writeValueAsString(bugReports.get(repetitionInfo.getCurrentRepetition() - 1));
+                .writeValueAsString(bugReportDtos.get(repetitionInfo.getCurrentRepetition() - 1));
 
         mockMvc.perform(post(BUG_REPORT_CONTROLLER_URI + "/").contentType(MediaType.APPLICATION_JSON)
                 .content(invalidBugReportAsJson)).andExpect(status().isBadRequest());
