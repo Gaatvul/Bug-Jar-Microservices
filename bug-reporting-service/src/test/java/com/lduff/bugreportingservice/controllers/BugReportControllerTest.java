@@ -68,7 +68,7 @@ public class BugReportControllerTest {
 
     }
 
-    @RepeatedTest(6)
+    @RepeatedTest(7)
     void whenBugReportIsInvalid_ShouldReturnStatus400(RepetitionInfo repetitionInfo) throws Exception {
 
         BugReport nullTitleBugReport = new BugReport(null, "description1", "status1", "severity1", "priority1",
@@ -83,9 +83,11 @@ public class BugReportControllerTest {
                 null, "assignee1", new Date(), new Date());
         BugReport blankReporterBugReport = new BugReport("", "description1", "status1", "severity1", "priority1",
                 "", "assignee1", new Date(), new Date());
+        BugReport nullReportedOnBugReport = new BugReport("", "description1", "status1", "severity1", "priority1",
+                "", "assignee1", null, new Date());
 
         bugReports = Arrays.asList(nullTitleBugReport, blankTitleBugReport, nullDescriptionBugReport,
-                blankDescriptionBugReport, nullReporterBugReport, blankReporterBugReport);
+                blankDescriptionBugReport, nullReporterBugReport, blankReporterBugReport, nullReportedOnBugReport);
 
         String invalidBugReportAsJson = mapper
                 .writeValueAsString(bugReports.get(repetitionInfo.getCurrentRepetition() - 1));
