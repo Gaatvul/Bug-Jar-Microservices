@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lduff.bugreportingservice.dtos.BugReportDto;
 import com.lduff.bugreportingservice.models.BugReport;
-import com.lduff.bugreportingservice.services.BugReportService;
+import com.lduff.bugreportingservice.services.BugReportServiceImpl;
 
 import jakarta.validation.Valid;
 
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class BugReportController {
 
     @Autowired
-    BugReportService bugReportService;
+    BugReportServiceImpl bugReportService;
 
     @GetMapping("/")
     public List<BugReport> getAllBugReports() {

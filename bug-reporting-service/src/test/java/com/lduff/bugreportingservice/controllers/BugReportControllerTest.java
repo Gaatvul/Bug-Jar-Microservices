@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lduff.bugreportingservice.dtos.BugReportDto;
 import com.lduff.bugreportingservice.models.BugReport;
-import com.lduff.bugreportingservice.services.BugReportService;
+import com.lduff.bugreportingservice.services.BugReportServiceImpl;
 
 @WebMvcTest(controllers = BugReportController.class)
 public class BugReportControllerTest {
@@ -35,7 +35,7 @@ public class BugReportControllerTest {
     private ObjectMapper mapper;
 
     @MockBean
-    private BugReportService bugReportService;
+    private BugReportServiceImpl bugReportService;
 
     @Autowired
     private MockMvc mockMvc;

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.lduff.bugreportingservice.repositories.BugReportRepository;
 import com.lduff.bugreportingservice.services.BugReportService;
+import com.lduff.bugreportingservice.services.BugReportServiceImpl;
 
 @ComponentScan("com.lduff.bugreportingservice")
 @Configuration
@@ -13,7 +14,7 @@ public class ApplicationConfig {
 
     @Bean(name = "bugReportService")
     public BugReportService createBugReportService() {
-        return new BugReportService();
+        return new BugReportServiceImpl();
     }
 
     @Bean(name = "bugReportRepository")
