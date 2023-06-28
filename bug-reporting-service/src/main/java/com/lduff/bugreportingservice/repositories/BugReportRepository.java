@@ -22,4 +22,7 @@ public class BugReportRepository {
     public void createNewBugReport(BugReportDto bugReport) {
     }
 
+    public void deleteBugReport(long id) {
+    }
+
 }
