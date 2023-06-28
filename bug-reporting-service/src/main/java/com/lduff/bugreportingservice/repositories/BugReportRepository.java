@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import com.lduff.bugreportingservice.dtos.BugReportDto;
 import com.lduff.bugreportingservice.models.BugReport;
 
 public class BugReportRepository {
@@ -16,6 +17,9 @@ public class BugReportRepository {
 
     public List<BugReport> getAllBugReports() {
         return bugReports;
+    }
+
+    public void createNewBugReport(BugReportDto bugReport) {
     }
 
 }
