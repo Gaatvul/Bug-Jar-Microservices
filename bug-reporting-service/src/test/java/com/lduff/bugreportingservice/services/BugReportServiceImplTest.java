@@ -1,7 +1,6 @@
 package com.lduff.bugreportingservice.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -11,7 +10,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -49,7 +47,7 @@ public class BugReportServiceImplTest {
     }
 
     @Test
-    void createNewBugReport_ShouldAddToList() throws Exception {
+    void createNewBugReport_ShouldAddToRepository() throws Exception {
 
         BugReportDto bugReportToCreate = new BugReportDto("new bug report", "desc", "status", "severity", "priority",
                 "reporter", "assignee", new Date(), new Date());
