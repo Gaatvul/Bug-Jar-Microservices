@@ -16,6 +16,7 @@ import com.lduff.bugreportingservice.services.BugReportService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -36,7 +37,12 @@ public class BugReportController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBugReport(@PathVariable int id) {
+    public void deleteBugReport(@PathVariable Long id) {
+
+    }
+
+    @PutMapping("/")
+    public void updateBugReport(@Valid @RequestBody BugReport bugReport) {
         
     }
 

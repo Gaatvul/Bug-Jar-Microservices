@@ -4,6 +4,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
@@ -38,16 +40,50 @@ public class BugReportControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private List<BugReport> bugReports;
-    private List<BugReportDto> bugReportDtos;
+    private List<BugReportDto> invalidNewBugReports;
+    private List<BugReport> invalidUpdatedBugReports;
 
     @Value("${URI.bug-report-controller}")
     private String BUG_REPORT_CONTROLLER_URI;
 
+    @BeforeEach
+    void setup() {
+        invalidNewBugReports = Arrays.asList(new BugReportDto(null, "description1", "status1", "severity1", "priority1",
+                "reporter1", "assignee1", new Date(), new Date()),
+                new BugReportDto("", "description1", "status1", "severity1", "priority1",
+                        "reporter1", "assignee1", new Date(), new Date()),
+                new BugReportDto("title", null, "status1", "severity1", "priority1",
+                        "reporter1", "assignee1", new Date(), new Date()),
+                new BugReportDto("title", "", "status1", "severity1", "priority1",
+                        "reporter1", "assignee1", new Date(), new Date()),
+                new BugReportDto("title", "description1", "status1", "severity1",
+                        "priority1", null, "assignee1", new Date(), new Date()),
+                new BugReportDto("", "description1", "status1", "severity1", "priority1",
+                        "", "assignee1", new Date(), new Date()),
+                new BugReportDto("", "description1", "status1", "severity1", "priority1",
+                        "", "assignee1", null, new Date()));
+
+        invalidUpdatedBugReports = Arrays.asList(
+                new BugReport(1L, null, "description1", "status1", "severity1", "priority1",
+                        "reporter1", "assignee1", new Date(), new Date()),
+                new BugReport(2L, "", "description1", "status1", "severity1", "priority1",
+                        "reporter1", "assignee1", new Date(), new Date()),
+                new BugReport(3L, "title", null, "status1", "severity1", "priority1",
+                        "reporter1", "assignee1", new Date(), new Date()),
+                new BugReport(4L, "title", "", "status1", "severity1", "priority1",
+                        "reporter1", "assignee1", new Date(), new Date()),
+                new BugReport(5L, "title", "description1", "status1", "severity1",
+                        "priority1", null, "assignee1", new Date(), new Date()),
+                new BugReport(6L, "", "description1", "status1", "severity1", "priority1",
+                        "", "assignee1", new Date(), new Date()),
+                new BugReport(7L, "", "description1", "status1", "severity1", "priority1",
+                        "", "assignee1", null, new Date()));
+    }
+
     @Test
     void getAllBugReportsShouldReturnListOfBugReports() throws Exception {
 
-        bugReports = Arrays.asList(
+        List<BugReport> bugReports = Arrays.asList(
                 new BugReport(1L, "title1", "description1", "status1", "severity1", "priority1", "reporter1",
                         "assignee1", new Date(), new Date()),
                 new BugReport(2L, "title2", "description2", "status2", "severity2", "priority2", "reporter2",
@@ -75,27 +111,8 @@ public class BugReportControllerTest {
     @RepeatedTest(7)
     void whenBugReportIsInvalid_ShouldReturnStatus400(RepetitionInfo repetitionInfo) throws Exception {
 
-        BugReportDto nullTitleBugReport = new BugReportDto(null, "description1", "status1", "severity1", "priority1",
-                "reporter1", "assignee1", new Date(), new Date());
-        BugReportDto blankTitleBugReport = new BugReportDto("", "description1", "status1", "severity1", "priority1",
-                "reporter1", "assignee1", new Date(), new Date());
-        BugReportDto nullDescriptionBugReport = new BugReportDto("title", null, "status1", "severity1", "priority1",
-                "reporter1", "assignee1", new Date(), new Date());
-        BugReportDto blankDescriptionBugReport = new BugReportDto("title", "", "status1", "severity1", "priority1",
-                "reporter1", "assignee1", new Date(), new Date());
-        BugReportDto nullReporterBugReport = new BugReportDto("title", "description1", "status1", "severity1",
-                "priority1",
-                null, "assignee1", new Date(), new Date());
-        BugReportDto blankReporterBugReport = new BugReportDto("", "description1", "status1", "severity1", "priority1",
-                "", "assignee1", new Date(), new Date());
-        BugReportDto nullReportedOnBugReport = new BugReportDto("", "description1", "status1", "severity1", "priority1",
-                "", "assignee1", null, new Date());
-
-        bugReportDtos = Arrays.asList(nullTitleBugReport, blankTitleBugReport, nullDescriptionBugReport,
-                blankDescriptionBugReport, nullReporterBugReport, blankReporterBugReport, nullReportedOnBugReport);
-
         String invalidBugReportAsJson = mapper
-                .writeValueAsString(bugReportDtos.get(repetitionInfo.getCurrentRepetition() - 1));
+                .writeValueAsString(invalidNewBugReports.get(repetitionInfo.getCurrentRepetition() - 1));
 
         mockMvc.perform(post(BUG_REPORT_CONTROLLER_URI + "/").contentType(MediaType.APPLICATION_JSON)
                 .content(invalidBugReportAsJson)).andExpect(status().isBadRequest());
@@ -104,7 +121,34 @@ public class BugReportControllerTest {
 
     @Test
     void deleteBugReport_ShouldReturnStatus200() throws Exception {
-        
+
         mockMvc.perform(delete(BUG_REPORT_CONTROLLER_URI + "/1")).andExpect(status().isOk());
+    }
+
+    @Test
+    void updateBugReport_ShouldReturnStatus200() throws Exception {
+
+        BugReport updatedBugReport = new BugReport(1L, "title", "description", "status",
+                "severity", "priority", "reporter", "assignee", new Date(), new Date());
+
+        String bugReportAsJson = mapper.writeValueAsString(updatedBugReport);
+
+        mockMvc.perform(
+                put(BUG_REPORT_CONTROLLER_URI + "/{id}", updatedBugReport.getId())
+                        .contentType(MediaType.APPLICATION_JSON).content(bugReportAsJson))
+                .andExpect(status().isOk());
+
+    }
+
+    @RepeatedTest(7)
+    void invalidBugReportsToUpdate_ShouldReturnStatus400(RepetitionInfo repetitionInfo) throws Exception {
+
+        BugReport currentCugReport = invalidUpdatedBugReports.get(repetitionInfo.getCurrentRepetition() - 1);
+
+        String invalidBugReportsAsJson = mapper.writeValueAsString(currentCugReport);
+
+        mockMvc.perform(put(BUG_REPORT_CONTROLLER_URI + "/", currentCugReport.getId())
+                .contentType(MediaType.APPLICATION_JSON).content(invalidBugReportsAsJson))
+                .andExpect(status().isBadRequest());
     }
 }
