@@ -30,4 +30,9 @@ public class BugReportServiceImpl implements BugReportService {
         bugReportRepository.deleteBugReport(id);
     }
 
+    @Override
+    public void updateBugReport(BugReport updatedBugReport) {
+        bugReportRepository.updateBugReport(updatedBugReport);
+    }
+
 }

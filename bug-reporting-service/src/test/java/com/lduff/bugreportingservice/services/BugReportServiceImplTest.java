@@ -59,12 +59,21 @@ public class BugReportServiceImplTest {
 
     @Test
     void deleteBugReport_ShouldRemoveFromRepository() throws Exception {
-        // Arrange
-        
-        // Act
+
         bugReportService.deleteBugReport(1L);
-        // Assert
+
         verify(bugReportRepository).deleteBugReport(1L);
-        
+
+    }
+
+    @Test
+    void updateBugReport_ShouldUpdateReportInRepository() throws Exception {
+
+        BugReport updatedBugReport = new BugReport(3L, "updated title", "desc", "stat", "sev", "prior", "reptr",
+                "assgn", new Date(), new Date());
+        bugReportService.updateBugReport(updatedBugReport);
+
+        verify(bugReportRepository).updateBugReport(updatedBugReport);
+
     }
 }

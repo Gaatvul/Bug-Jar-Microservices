@@ -11,4 +11,6 @@ public interface BugReportService {
     public void createNewBugReport(BugReportDto newBugReport);
 
     public void deleteBugReport(Long id);
+
+    public void updateBugReport(BugReport updatedBugReport);
 }
