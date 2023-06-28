@@ -20,8 +20,14 @@ public class BugReportServiceImpl implements BugReportService {
         return bugReportRepository.getAllBugReports();
     }
 
-    public void createNewBugReport(BugReportDto bugReport){
-        bugReportRepository.createNewBugReport(bugReport);
+    @Override
+    public void createNewBugReport(BugReportDto newBugReport){
+        bugReportRepository.createNewBugReport(newBugReport);
+    }
+
+    @Override
+    public void deleteBugReport(Long id) {
+        bugReportRepository.deleteBugReport(id);
     }
 
 }
