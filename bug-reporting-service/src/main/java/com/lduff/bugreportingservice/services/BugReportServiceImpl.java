@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lduff.bugreportingservice.dtos.BugReportDto;
 import com.lduff.bugreportingservice.models.BugReport;
 import com.lduff.bugreportingservice.repositories.BugReportRepository;
 
@@ -17,6 +18,10 @@ public class BugReportServiceImpl implements BugReportService {
     @Override
     public List<BugReport> getAllBugReports() {
         return bugReportRepository.getAllBugReports();
+    }
+
+    public void createNewBugReport(BugReportDto bugReport){
+        bugReportRepository.createNewBugReport(bugReport);
     }
 
 }

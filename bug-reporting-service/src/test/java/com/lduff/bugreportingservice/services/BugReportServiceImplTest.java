@@ -1,6 +1,8 @@
 package com.lduff.bugreportingservice.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.lduff.bugreportingservice.dtos.BugReportDto;
 import com.lduff.bugreportingservice.models.BugReport;
 import com.lduff.bugreportingservice.repositories.BugReportRepository;
 
@@ -43,5 +46,16 @@ public class BugReportServiceImplTest {
         when(bugReportRepository.getAllBugReports()).thenReturn(bugReports);
 
         assertThat(bugReportService.getAllBugReports()).isEqualTo(bugReports);
+    }
+
+    @Test
+    void createNewBugReport_ShouldAddToList() throws Exception {
+
+        BugReportDto bugReportToCreate = new BugReportDto("new bug report", "desc", "status", "severity", "priority",
+                "reporter", "assignee", new Date(), new Date());
+
+        bugReportService.createNewBugReport(bugReportToCreate);
+
+        verify(bugReportRepository).createNewBugReport(bugReportToCreate);
     }
 }
