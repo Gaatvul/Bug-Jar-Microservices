@@ -25,4 +25,7 @@ public class BugReportRepository {
     public void deleteBugReport(long id) {
     }
 
+    public void updateBugReport(BugReport updatedBugReport) {
+    }
+
 }
