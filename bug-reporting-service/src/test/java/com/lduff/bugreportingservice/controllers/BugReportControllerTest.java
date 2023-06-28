@@ -134,7 +134,7 @@ public class BugReportControllerTest {
         String bugReportAsJson = mapper.writeValueAsString(updatedBugReport);
 
         mockMvc.perform(
-                put(BUG_REPORT_CONTROLLER_URI + "/{id}", updatedBugReport.getId())
+                put(BUG_REPORT_CONTROLLER_URI + "/")
                         .contentType(MediaType.APPLICATION_JSON).content(bugReportAsJson))
                 .andExpect(status().isOk());
 
@@ -147,7 +147,7 @@ public class BugReportControllerTest {
 
         String invalidBugReportsAsJson = mapper.writeValueAsString(currentCugReport);
 
-        mockMvc.perform(put(BUG_REPORT_CONTROLLER_URI + "/", currentCugReport.getId())
+        mockMvc.perform(put(BUG_REPORT_CONTROLLER_URI + "/")
                 .contentType(MediaType.APPLICATION_JSON).content(invalidBugReportsAsJson))
                 .andExpect(status().isBadRequest());
     }
