@@ -29,7 +29,7 @@ import com.lduff.bugreportingservice.models.BugReport;
 import com.lduff.bugreportingservice.services.BugReportServiceImpl;
 
 @WebMvcTest(controllers = BugReportController.class)
-public class BugReportControllerTest {
+class BugReportControllerTest {
 
     @Autowired
     private ObjectMapper mapper;

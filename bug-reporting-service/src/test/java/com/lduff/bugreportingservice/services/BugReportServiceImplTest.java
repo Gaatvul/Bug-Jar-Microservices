@@ -19,7 +19,7 @@ import com.lduff.bugreportingservice.models.BugReport;
 import com.lduff.bugreportingservice.repositories.BugReportRepository;
 
 @SpringBootTest
-public class BugReportServiceImplTest {
+class BugReportServiceImplTest {
 
     @Autowired
     private BugReportServiceImpl bugReportService;
