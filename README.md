@@ -1,6 +1,6 @@
 # Bug Jar
 
-*This is a migration of the current [monolithic](https://github.com/Gaatvul/Bug-Jar) architecture to microservices. This project will eventually be hosted on AWS Fargate as a Kubernetes clusters.*
+*This is a migration of the current [monolithic](https://github.com/Gaatvul/Bug-Jar) architecture to microservices. This project will eventually be hosted on AWS Fargate using Docker.*
 
 ----------
 
