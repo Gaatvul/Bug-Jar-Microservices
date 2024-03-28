@@ -19,7 +19,12 @@ public class BugReportServiceImpl implements BugReportService {
 
     @Override
     public List<BugReport> getAllBugReports() {
-        return (List<BugReport>) bugReportRepositoryImpl.getAllBugReports();
+        return bugReportRepositoryImpl.getAllBugReports();
+    }
+
+    @Override
+    public BugReport getBugReportWithId(Long id) {
+        return bugReportRepositoryImpl.getBugReportWithId(id);
     }
 
     @Override

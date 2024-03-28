@@ -8,6 +8,8 @@ import com.lduff.bugreportingservice.models.BugReport;
 public interface BugReportService {
     public List<BugReport> getAllBugReports();
 
+    public BugReport getBugReportWithId(Long id);
+
     public void createNewBugReport(BugReportDto newBugReport);
 
     public void deleteBugReport(Long id);

@@ -16,6 +16,8 @@ import com.lduff.bugreportingservice.models.BugReport;
 import com.lduff.bugreportingservice.services.BugReportServiceImpl;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("${URI.bug-report-controller}")
@@ -31,6 +33,12 @@ public class BugReportController {
     public List<BugReport> getAllBugReports() {
         return bugReportService.getAllBugReports();
     }
+
+    @GetMapping("/{id}")
+    public BugReport getBugReportWithId(@PathVariable Long id) {
+        return bugReportService.getBugReportWithId(id);
+    }
+    
 
     @PostMapping("/")
     public void createNewBugReport(@Valid @RequestBody BugReportDto bugReport) {
